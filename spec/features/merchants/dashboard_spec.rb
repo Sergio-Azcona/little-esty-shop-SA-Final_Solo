@@ -3,11 +3,11 @@ require 'rails_helper'
 RSpec.describe 'the Merchant dashboard' do 
 
   before(:each) do 
-    @merchant1 = Merchant.create!(name: 'Lisa Frank Knockoffs')
+    @lisa_frank = Merchant.create!(name: 'Lisa Frank Knockoffs')
 
-    @item1 = @merchant1.items.create!(name: 'Trapper Keeper', description: 'Its a Lisa Frank Trapper Keeper', unit_price: 3000)
-    @item2 = @merchant1.items.create!(name: 'Fuzzy Pencil', description: 'Its a fuzzy pencil', unit_price: 500)
-    @item3 = @merchant1.items.create!(name: 'Leopard Folder', description: 'Its a fuzzy pencil', unit_price: 500)
+    @item1 = @lisa_frank.items.create!(name: 'Trapper Keeper', description: 'Its a Lisa Frank Trapper Keeper', unit_price: 3000)
+    @item2 = @lisa_frank.items.create!(name: 'Fuzzy Pencil', description: 'Its a fuzzy pencil', unit_price: 500)
+    @item3 = @lisa_frank.items.create!(name: 'Leopard Folder', description: 'Its a fuzzy pencil', unit_price: 500)
 
     @customer1 = Customer.create!(first_name: 'Dandy', last_name: 'Dan')
     @customer2 = Customer.create!(first_name: 'Rockin', last_name: 'Rick')
@@ -42,26 +42,26 @@ RSpec.describe 'the Merchant dashboard' do
 
     @invoice5.transactions.create!(result: 0)
 
-    visit "/merchants/#{@merchant1.id}/dashboard"
+    visit "/merchants/#{@lisa_frank.id}/dashboard"
   end
 
   # When I visit my merchant dashboard I see the name of my merchant
   it 'shows the name of the merchant' do
-    expect(page).to have_content(@merchant1.name)
+    expect(page).to have_content(@lisa_frank.name)
   end
 
   describe 'links' do 
     it 'to the merchant items index and invoices index' do 
       click_link 'My Items'
 
-      expect(current_path).to eq("/merchants/#{@merchant1.id}/items")
+      expect(current_path).to eq("/merchants/#{@lisa_frank.id}/items")
     end
 
     # -- UNCOMMENT AFTER MERCHANT INVOICES INDEX CREATION --
     # it 'to the merchant invoices index' do 
     #   click_link 'My Invoices'
 
-    #   expect(current_path).to eq("/merchants/#{@merchant1.id}/invoices")
+    #   expect(current_path).to eq("/merchants/#{@lisa_frank.id}/invoices")
     # end
   end
 
@@ -108,7 +108,7 @@ RSpec.describe 'the Merchant dashboard' do
         within "#invoice-#{@invoice3.id}" do 
           click_link "#{@invoice3.id}"
 
-          expect(current_path).to eq("/merchants/#{@merchant1.id}/invoices/#{@invoice3.id}")
+          expect(current_path).to eq("/merchants/#{@lisa_frank.id}/invoices/#{@invoice3.id}")
         end
       end
     end
@@ -124,6 +124,14 @@ RSpec.describe 'the Merchant dashboard' do
         expect(@invoice3.id.to_s).to appear_before(@invoice4.id.to_s)
         expect(@invoice4.id.to_s).to appear_before(@invoice2.id.to_s)
       end
+    end
+  end
+
+  describe "Bulk Discount Link" do
+    it "has a link to the merchant bulk discounts index page" do
+      click_link 'view all my discounts'
+
+      expect(current_path).to eq("/merchants/#{@lisa_frank.id}/bulk_discounts")
     end
   end
 end
