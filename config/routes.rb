@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :items 
     #creates routes for merchants and merchant_items 
     resources :invoices
+    resources :bulk_discounts
   end
   
 
@@ -21,7 +22,6 @@ Rails.application.routes.draw do
   get '/admin', to: 'admin/dashboards#index'
   
   # patch 'admin/invoices/:id', to: 'admin/invoices#update'
-
 
   #creates routes for merchants and merchant_items 
   get 'merchants/:id/dashboard', to: 'merchant_dashboards#show'

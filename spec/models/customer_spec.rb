@@ -95,4 +95,21 @@ RSpec.describe Customer do
       end
     end
   end
+
+  describe 'class methods' do 
+    describe '#top_five_customers' do
+      it 'returns top five customers based on the number of transactions' do
+        expect(Customer.top_five_customers).to_not eq([@sean, @billy, @sean, @kevin, @sergio])
+        expect(Customer.top_five_customers).to eq([@emily, @sean, @kevin, @sergio, @billy])
+      end
+
+      it 'returns the number of transactions of each of the top five customers' do
+        expect(Customer.top_five_customers.first.succ_transactions).to_not eq(1)
+        expect(Customer.top_five_customers.last.succ_transactions).to_not eq(5)
+
+        expect(Customer.top_five_customers.first.succ_transactions).to eq(5)
+        expect(Customer.top_five_customers.last.succ_transactions).to eq(1)
+      end
+    end
+  end
 end
