@@ -53,8 +53,11 @@ RSpec.describe 'the Merchant dashboard' do
   describe 'links' do 
     it 'to the merchant items index and invoices index' do 
       click_link 'My Items'
-
       expect(current_path).to eq("/merchants/#{@lisa_frank.id}/items")
+    end
+    it "has a link to the merchant bulk discounts index page" do
+      click_link 'View All My Discounts'
+      expect(current_path).to eq(merchant_bulk_discounts_path("#{@lisa_frank.id}"))
     end
 
     # -- UNCOMMENT AFTER MERCHANT INVOICES INDEX CREATION --
