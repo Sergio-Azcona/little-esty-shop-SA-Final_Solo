@@ -78,32 +78,45 @@ RSpec.describe "Create New Discount Page" do
   end
 
   describe 'story-2: Merchant can create new bulk discount' do
-    describe 'page does not have any attribute values displaying' do
-      it 'requires complete and valid data input' do
+    it 'does not have any attribute values displaying upon landing on page' do
+      visit ("/merchants/#{@klein_rempel.id}/bulk_discounts/new")      
+      within('#new-discount-input') do 
+        expect(page).to_not have_field(:discount_name, :with => "Double Trouble") 
+        expect(page).to_not have_field(:percentage, :with => "2") 
+        expect(page).to_not have_field(:quantity_threshold, :with => "2") 
+
+        expect(page).to have_field(:discount_name, :with => "") 
+        expect(page).to have_field(:percentage, :with => "") 
+        expect(page).to have_field(:quantity_threshold, :with => "") 
+      end
+    end
+
+    describe 'requires complete and valid data input' do 
+      it 'retuns user to form page and displays an flash notice' do
         visit ("/merchants/#{@klein_rempel.id}/bulk_discounts/new")
-        # save_and_open_page
-        expect(page).to have_content("")
-
-        within('#new-discount-input') do 
-          expect(page).to_not have_content("Double Trouble")
-          expect(page).to_not have_content("2")
-          expect(page).to have_content("")
-        end
-
+      
         fill_in :discount_name, with: "Double Trouble"
-        fill_in :percentage, with: 2
-        fill_in :quantity_threshold, with: 2
+        fill_in :percentage, with: "b"
+        fill_in :quantity_threshold, with: "2"
+        click_button "Submit"
+    
+        expect(current_path).to_not eq("/merchants/#{@klein_rempel.id}/bulk_discounts/new")
+        expect(current_path).to eq("/merchants/#{@klein_rempel.id}/bulk_discounts")
+        expect(page).to have_content("Incomplete Entry - Please Try Again")
+      
+        fill_in :discount_name, with: "Double Trouble"
+        fill_in :percentage, with: "2"
+        fill_in :quantity_threshold, with: "2"
 
-        within('#new-discount-input') do 
-          expect(page).to_not have_content("")
-          expect(page).to have_content("Double Trouble")
-          expect(page).to have_content("2")
-        end
+        click_button "Submit"
       end
     end
     
     describe "when merchant clicks 'Submit" do
-      it 'redirects to the merchant bulk discount index page' do
+      it 'redirects to the merchant bulk discount index page, where new discount is displayed' do
+        visit ("/merchants/#{@klein_rempel.id}/bulk_discounts")
+        expect(page).to_not have_content("Double Trouble")
+       
         visit ("/merchants/#{@klein_rempel.id}/bulk_discounts/new")
       
         fill_in :discount_name, with: "Double Trouble"
@@ -116,14 +129,9 @@ RSpec.describe "Create New Discount Page" do
         expect(current_path).to_not eq("/merchants/#{@dk.id}/bulk_discounts")
 
         expect(current_path).to eq("/merchants/#{@klein_rempel.id}/bulk_discounts")
-      end
-
-      it 'displays the new, completed discount on the bulk discount index page' do
-        visit ("/merchants/#{@klein_rempel.id}/bulk_discounts")
-
         expect(page).to have_content("Double Trouble")
+        # save_and_open_page 
       end
     end
   end
-
 end

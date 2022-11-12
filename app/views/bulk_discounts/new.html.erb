@@ -1,9 +1,12 @@
 <h2>Add New Bulk Discount</h2>
 
-<%= render partial: 'form', locals: {
-                                    path: "/merchants/#{@merchant.id}/bulk_discounts",
-                                    method: :post,
-                                    button_text: "Submit",
-                                    discount_name: '',
-                                    percentage: '',
-                                    quantity_threshold: '' } %>
+<div id="new-discount-input" >
+  <%= render partial: 'form', locals: {
+                                      path: "/merchants/#{@merchant.id}/bulk_discounts",
+                                      method: :post,
+                                      button_text: "Submit",
+                                      discount_name: '',
+                                      percentage: '',
+                                      quantity_threshold: '' } %>
+        
+</div>
