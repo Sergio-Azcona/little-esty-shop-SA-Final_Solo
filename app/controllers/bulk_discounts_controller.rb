@@ -9,4 +9,6 @@ class BulkDiscountsController < ApplicationController
   def new
   end
 
+  
+
 end
