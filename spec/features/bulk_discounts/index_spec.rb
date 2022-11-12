@@ -77,7 +77,7 @@ RSpec.describe 'Bulk Discount Index page' do
     @invoice_item17 = InvoiceItem.create!(quantity: 54, unit_price: 8000, status: 2, item_id: @funnypowder.id, invoice_id: @invoice2.id)
   end
 
-  describe "it displays all of the merchant's bulk discounts" do    
+  describe "Story 1-it displays all of the merchant's bulk discounts" do    
     it "displays the percentage discount and quantity thresholds" do
     
       visit ("/merchants/#{@dk.id}/bulk_discounts")
@@ -110,5 +110,22 @@ RSpec.describe 'Bulk Discount Index page' do
 
       expect(current_path).to eq("/merchants/#{@dk.id}/bulk_discounts/#{@five_for_5.id}")
     end
+  end
+
+  describe "story 2: Merchant Bulk Discount Create" do
+    describe "has a link to create a new discount" do
+      it "takes the user to a new page with a form to add a new bulk discount" do
+        visit ("/merchants/#{@dk.id}/bulk_discounts")
+
+        save_and_open_page
+        click_link ('Create New Discount')
+
+        expect(current_path).to_not eq("/merchants/#{@klein_rempel.id}/bulk_discounts/new")
+        expect(current_path).to_not eq("/merchants/#{@klein_rempel.id}/bulk_discounts/#{@buy_5_get_5.id}")
+        expect(current_path).to_not eq("/merchants/#{@dk.id}/bulk_discounts/#{@seven_for_7.id}")
+        expect(current_path).to eq("/merchants/#{@dk.id}/bulk_discounts/new")
+      end
+    end
+  
   end
 end
