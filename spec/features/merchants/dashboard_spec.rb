@@ -4,6 +4,15 @@ RSpec.describe 'the Merchant dashboard' do
 
   before(:each) do 
     @lisa_frank = Merchant.create!(name: 'Lisa Frank Knockoffs')
+    @klein_rempel = Merchant.create!(name: "Klein, Rempel and Jones")
+    @dk = Merchant.create!(name: "Dickinson-Klein")
+    
+    @five_for_5 = @dk.bulk_discounts.create!(percentage: 5, quantity_threshold: 5, discount_name:"Five for Five")
+    @seven_for_7 = BulkDiscount.create!(discount_name:"7 for 7", percentage: 7, quantity_threshold: 7, merchant: @dk)
+    @ten_for_10 = BulkDiscount.create!(discount_name:"Lucky 10s", percentage: 10, quantity_threshold: 10, merchant: @dk)
+
+    @buy_5_get_5 = BulkDiscount.create!(discount_name:"All 5", percentage: 5, quantity_threshold: 3, merchant: @klein_rempel)
+    @buy_5_get_8 = BulkDiscount.create!(discount_name:"5-8", percentage: 8, quantity_threshold: 5, merchant: @klein_rempel)
 
     @item1 = @lisa_frank.items.create!(name: 'Trapper Keeper', description: 'Its a Lisa Frank Trapper Keeper', unit_price: 3000)
     @item2 = @lisa_frank.items.create!(name: 'Fuzzy Pencil', description: 'Its a fuzzy pencil', unit_price: 500)
@@ -132,7 +141,12 @@ RSpec.describe 'the Merchant dashboard' do
 
   describe "Bulk Discount Link" do
     it "has a link to the merchant bulk discounts index page" do
+      # save_and_open_page
       click_link 'View All My Discounts'
+
+      expect(current_path).to_not eq("/merchants/#{@dk.id}/bulk_discounts")
+      expect(current_path).to_not eq("/merchants/#{@dk.id}/bulk_discounts/#{@buy_5_get_5.id}")
+      expect(current_path).to_not eq("/merchants/#{@lisa_frank.id}/invoices")
 
       expect(current_path).to eq("/merchants/#{@lisa_frank.id}/bulk_discounts")
     end

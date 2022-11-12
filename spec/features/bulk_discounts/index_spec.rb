@@ -5,12 +5,12 @@ RSpec.describe 'Bulk Discount Index page' do
     @klein_rempel = Merchant.create!(name: "Klein, Rempel and Jones")
     @dk = Merchant.create!(name: "Dickinson-Klein")
     
-    @five_for_5 = BulkDiscount.create!(percentage: 5, quantity_threshold: 5, merchant: @dk)
-    @seven_for_7 = BulkDiscount.create!(percentage: 7, quantity_threshold: 7, merchant: @dk)
-    @ten_for_10 = BulkDiscount.create!(percentage: 10, quantity_threshold: 10, merchant: @dk)
+    @five_for_5 = @dk.bulk_discounts.create!(percentage: 5, quantity_threshold: 5, discount_name:"Five for Five")
+    @seven_for_7 = BulkDiscount.create!(discount_name:"7 for 7", percentage: 7, quantity_threshold: 7, merchant: @dk)
+    @ten_for_10 = BulkDiscount.create!(discount_name:"Lucky 10s", percentage: 10, quantity_threshold: 10, merchant: @dk)
 
-    @buy_5_get_5 = BulkDiscount.create!(percentage: 5, quantity_threshold: 3, merchant: @klein_rempel)
-    @buy_3_get_8 = BulkDiscount.create!(percentage: 8, quantity_threshold: 5, merchant: @klein_rempel)
+    @buy_5_get_5 = BulkDiscount.create!(discount_name:"All 5", percentage: 5, quantity_threshold: 3, merchant: @klein_rempel)
+    @buy_5_get_8 = BulkDiscount.create!(discount_name:"5-8", percentage: 8, quantity_threshold: 5, merchant: @klein_rempel)
 
     @watch = @klein_rempel.items.create!(name: "Watch", description: "Tells time on your wrist", unit_price: 300)
     @radio = @klein_rempel.items.create!(name: "Radio", description: "Broadcasts radio stations", unit_price: 150)
@@ -79,22 +79,33 @@ RSpec.describe 'Bulk Discount Index page' do
 
   describe "it displays all of the merchant's bulk discounts" do    
     it "displays the percentage discount and quantity thresholds" do
+    
       visit ("/merchants/#{@dk.id}/bulk_discounts")
 
-      expect(page).to_not have_content(@buy_5_get_5.id)
+      expect(page).to_not have_content(@buy_5_get_5.discount_name)
+      
+      expect(page).to have_content(@seven_for_7.discount_name)
+      expect(page).to have_content(@ten_for_10.discount_name)
+      
+      within("#discount-list-#{@five_for_5.id}") do
+        expect(page).to have_content("#{@five_for_5.discount_name}")      
+        expect(page).to have_content("#{@five_for_5.percentage}")
+        expect(page).to have_content("#{@five_for_5.quantity_threshold}")
+      
+        expect(page).to_not have_content(@seven_for_7.discount_name)
+        expect(page).to_not have_content(@ten_for_10.discount_name)
+      end
 
-      expect(page).to have_content(@five_for_5.percentage)
-      expect(page).to have_content(@five_for_5.quantity_threshold)
-      expect(page).to have_content(@seven_for_7)
-      expect(page).to have_content(@ten_for_10)
     end
  
     it "has link to the show page of each bulk discount listed" do
       visit ("/merchants/#{@dk.id}/bulk_discounts")
-    
-      click_link ("#{@five_for_5.id}")
+      expect(current_path).to eq("/merchants/#{@dk.id}/bulk_discounts")
       
+      click_link ("#{@five_for_5.discount_name}")
+
       expect(current_path).to_not eq("/merchants/#{@dk.id}/bulk_discounts")
+      expect(current_path).to_not eq("/merchants/#{@dk.id}/bulk_discounts/#{@buy_5_get_5.id}")
       expect(current_path).to_not eq("/merchants/#{@dk.id}/bulk_discounts/#{@seven_for_7.id}")
 
       expect(current_path).to eq("/merchants/#{@dk.id}/bulk_discounts/#{@five_for_5.id}")
