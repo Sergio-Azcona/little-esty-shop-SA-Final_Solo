@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Bulk Discount Index page' do
+RSpec.describe 'Merchant Bulk Discount Show' do
   before(:each) do
     @klein_rempel = Merchant.create!(name: "Klein, Rempel and Jones")
     @dk = Merchant.create!(name: "Dickinson-Klein")
@@ -77,53 +77,22 @@ RSpec.describe 'Bulk Discount Index page' do
     @invoice_item17 = InvoiceItem.create!(quantity: 54, unit_price: 8000, status: 2, item_id: @funnypowder.id, invoice_id: @invoice2.id)
   end
 
-  describe "Story 1-it displays all of the merchant's bulk discounts" do    
-    it "displays the percentage discount and quantity thresholds" do
+  describe "Story 4-the bulk discount show page" do    
+    it "displays the bulk discount's attributes (name, percentage discount, and quantity thresholds" do
     
-      visit ("/merchants/#{@dk.id}/bulk_discounts")
+      visit ("/merchants/#{@dk.id}/bulk_discounts/#{@five_for_5.id}")
 
       expect(page).to_not have_content(@double_five.discount_name)
+ 
+      expect(page).to_not have_content(@seven_for_7.discount_name)
+      expect(page).to_not have_content(@ten_for_10.discount_name)
       
-      expect(page).to have_content(@seven_for_7.discount_name)
-      expect(page).to have_content(@ten_for_10.discount_name)
-      
-      within("#discount-list-#{@five_for_5.id}") do
+      # within("#discount-list-#{@five_for_5.id}") do
         expect(page).to have_content("#{@five_for_5.discount_name}")      
         expect(page).to have_content("#{@five_for_5.percentage}")
         expect(page).to have_content("#{@five_for_5.quantity_threshold}")
       
-        expect(page).to_not have_content(@seven_for_7.discount_name)
-        expect(page).to_not have_content(@ten_for_10.discount_name)
-      end
+      # end
     end
- 
-    it "has link to the show page of each bulk discount listed" do
-      visit ("/merchants/#{@dk.id}/bulk_discounts")
-      expect(current_path).to eq("/merchants/#{@dk.id}/bulk_discounts")
-      
-      click_link ("#{@five_for_5.discount_name}")
-
-      expect(current_path).to_not eq("/merchants/#{@dk.id}/bulk_discounts")
-      expect(current_path).to_not eq("/merchants/#{@dk.id}/bulk_discounts/#{@threes.id}")
-      expect(current_path).to_not eq("/merchants/#{@dk.id}/bulk_discounts/#{@seven_for_7.id}")
-
-      expect(current_path).to eq("/merchants/#{@dk.id}/bulk_discounts/#{@five_for_5.id}")
-    end
-  end
-
-  describe "story 2: Merchant Bulk Discount Create" do
-    describe "has a link to create a new discount" do
-      it "takes the user to a new page with a form to add a new bulk discount" do
-        visit ("/merchants/#{@dk.id}/bulk_discounts")
-        # save_and_open_page
-        click_link ('Create New Discount')
-
-        expect(current_path).to_not eq("/merchants/#{@klein_rempel.id}/bulk_discounts/new")
-        expect(current_path).to_not eq("/merchants/#{@klein_rempel.id}/bulk_discounts/#{@threes.id}")
-        expect(current_path).to_not eq("/merchants/#{@dk.id}/bulk_discounts/#{@seven_for_7.id}")
-        expect(current_path).to eq("/merchants/#{@dk.id}/bulk_discounts/new")
-      end
-    end
-  
   end
 end
