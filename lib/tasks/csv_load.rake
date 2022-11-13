@@ -66,6 +66,10 @@ namespace :csv_load do
     ActiveRecord::Base.connection.reset_pk_sequence!('invoice_items')
   end
 
+  task bulk_discounts: :environment do 
+    
+  end
+
   task all: :environment do 
     Rake::Task["csv_load:customers"].invoke 
     Rake::Task["csv_load:merchants"].invoke 

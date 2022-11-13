@@ -5,8 +5,8 @@
                                       path: "/merchants/#{@merchant.id}/bulk_discounts",
                                       method: :post,
                                       button_text: "Submit",
-                                      discount_name: '',
-                                      percentage: '',
-                                      quantity_threshold: '' } %>
+                                      discount_name: @new_discount.discount_name,
+                                      percentage:  @new_discount.percentage,
+                                      quantity_threshold:   @new_discount.quantity_threshold} %>
         
 </div>
