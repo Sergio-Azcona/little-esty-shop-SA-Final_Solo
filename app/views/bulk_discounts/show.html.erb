@@ -1,6 +1,9 @@
-<h2>Show Page</h2>
+  <strong><h3 style="color:SlateBlue;"><center><%= @bulk_discount.discount_name %> Show Page </center></h3></strong>
+  
+  <p><center>Percentage: <%= @bulk_discount.percentage %></center></p>
+  <p><center>Quantity Threshold: <%= @bulk_discount.quantity_threshold %></center></p>
 
-    <strong><%= link_to @bulk_discount.discount_name, merchant_bulk_discount_path(@merchant, @bulk_discount) %></strong>
-    <ul>Percentage: <%= @bulk_discount.percentage %></ul>
-    <ul>Quantity Threshold: <%= @bulk_discount.quantity_threshold %></ul>
-   
+<div style="position:fixed; padding: 1em; top: 0; right: 0;">
+     <ul><%= link_to 'Edit This Discount', edit_merchant_bulk_discount_path(@merchant, @bulk_discount) %></ul>
+     <ul><%= link_to 'Delete This Discount', "/merchants/#{@merchant.id}/bulk_discounts/#{@bulk_discount.id}", method: :delete %></ul>
+</div>

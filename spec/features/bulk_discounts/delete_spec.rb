@@ -103,7 +103,7 @@ RSpec.describe 'Bulk Discount Index page' do
       expect(page).to_not have_content("#{@seven_for_7.discount_name}")      
       expect(page).to_not have_content("#{@seven_for_7.percentage}")
       expect(page).to_not have_content("#{@seven_for_7.quantity_threshold}")
-      save_and_open_page
+      # save_and_open_page
       expect(current_path).to eq("/merchants/#{@dk.id}/bulk_discounts")
     end
   end

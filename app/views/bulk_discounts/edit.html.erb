@@ -1,0 +1,11 @@
+<strong><h3 style="color:red;"><center> Edit Page </center></h3></strong>
+
+<div id="edit-discount" >
+  <%= render partial: 'form', locals: {
+                                      path:  edit_merchant_bulk_discount_path(@merchant, @bulk_discount),
+                                      method: :patch,
+                                      button_text: "Submit",
+                                      discount_name: @bulk_discount.discount_name,
+                                      percentage:  @bulk_discount.percentage,
+                                      quantity_threshold:   @bulk_discount.quantity_threshold} %>
+</div>

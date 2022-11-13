@@ -26,6 +26,11 @@ class BulkDiscountsController < ApplicationController
     end
   end
 
+  def edit
+    @merchant = Merchant.find(params[:merchant_id])
+    @bulk_discount = @merchant.bulk_discounts.find(params[:id])
+  end
+
   def destroy
     @merchant = Merchant.find(params[:merchant_id])
     
@@ -41,5 +46,4 @@ class BulkDiscountsController < ApplicationController
     params.permit(:discount_name, :percentage, :quantity_threshold)
     # params.reqiure(:bulkdiscount).permit(:name, :percentage, :quantity_threshold)
   end
-
 end
