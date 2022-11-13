@@ -80,7 +80,7 @@ RSpec.describe 'Bulk Discount Index page' do
   describe "Story 3: Merchant Bulk Discount Delete-Merchant's Bulk Discount Index page" do    
     it "displays a link to delete each bulk discount next to it" do
       visit ("/merchants/#{@dk.id}/bulk_discounts")
-
+    
       within("#discount-list-#{@seven_for_7.id}") do
         expect(page).to have_content("#{@seven_for_7.discount_name}")      
         expect(page).to have_content("#{@seven_for_7.percentage}")
@@ -93,12 +93,14 @@ RSpec.describe 'Bulk Discount Index page' do
     it "deletes the discount if the delete is clicked and returns to the index page, where the discount is no longer displayed" do
       visit ("/merchants/#{@dk.id}/bulk_discounts")
     
-      click_link ('Delete This Discount')
-
+      within("#discount-list-#{@seven_for_7.id}") do
+        click_link ('Delete This Discount')
+      end
+      
       expect(page).to_not have_content("#{@seven_for_7.discount_name}")      
       expect(page).to_not have_content("#{@seven_for_7.percentage}")
       expect(page).to_not have_content("#{@seven_for_7.quantity_threshold}")
-
+      # save_and_open_page
       expect(current_path).to eq("/merchants/#{@dk.id}/bulk_discounts")
     end
   end

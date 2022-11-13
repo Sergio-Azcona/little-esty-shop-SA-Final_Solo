@@ -8,6 +8,7 @@ class BulkDiscountsController < ApplicationController
 
   def new
     @merchant = Merchant.find(params[:merchant_id])
+    @new_discount = @merchant.bulk_discounts.new
   end
 
   def create
@@ -21,6 +22,16 @@ class BulkDiscountsController < ApplicationController
       flash.notice = "Incomplete Entry - Please Try Again"
       render :new
     end
+  end
+
+  def destroy
+    @merchant = Merchant.find(params[:merchant_id])
+    
+    @delete_discount = @merchant.bulk_discounts.find(params[:id])
+    @delete_discount.destroy
+
+    flash.notice = "Discount Deleted"
+    redirect_to merchant_bulk_discounts_path("#{@merchant.id}")
   end
 
   private
