@@ -2,7 +2,7 @@
 
 <div id="edit-discount" >
   <%= render partial: 'form', locals: {
-                                      path:  edit_merchant_bulk_discount_path(@merchant, @bulk_discount),
+                                      path:  merchant_bulk_discount_path(@merchant, @bulk_discount),
                                       method: :patch,
                                       button_text: "Submit",
                                       discount_name: @bulk_discount.discount_name,
