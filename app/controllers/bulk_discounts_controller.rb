@@ -4,6 +4,8 @@ class BulkDiscountsController < ApplicationController
   end
 
   def show
+    @merchant = Merchant.find(params[:merchant_id])
+    @bulk_discount = @merchant.bulk_discounts.find(params[:id])
   end
 
   def new
@@ -24,6 +26,27 @@ class BulkDiscountsController < ApplicationController
     end
   end
 
+  def edit
+    @merchant = Merchant.find(params[:merchant_id])
+    @bulk_discount = @merchant.bulk_discounts.find(params[:id])
+    
+  end
+
+  def update 
+    @merchant = Merchant.find(params[:merchant_id])
+    @edited_discount = @merchant.bulk_discounts.find(params[:id])
+    
+    @edited_discount.update(bulk_discount_params)
+
+    if @edited_discount.save
+      flash.notice = "Edit(s) Successful"
+      redirect_to merchant_bulk_discount_path(@merchant, @edited_discount)    
+   else
+    flash.notice = "Edit Not Complete - Unacceptable Input - Try Editing Again If Desired"
+    redirect_to "/merchants/#{@merchant.id}/bulk_discounts/#{@edited_discount.id}"
+   end
+  end
+
   def destroy
     @merchant = Merchant.find(params[:merchant_id])
     
@@ -39,5 +62,4 @@ class BulkDiscountsController < ApplicationController
     params.permit(:discount_name, :percentage, :quantity_threshold)
     # params.reqiure(:bulkdiscount).permit(:name, :percentage, :quantity_threshold)
   end
-
 end

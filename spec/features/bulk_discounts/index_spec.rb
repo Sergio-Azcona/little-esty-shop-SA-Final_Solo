@@ -95,7 +95,6 @@ RSpec.describe 'Bulk Discount Index page' do
         expect(page).to_not have_content(@seven_for_7.discount_name)
         expect(page).to_not have_content(@ten_for_10.discount_name)
       end
-
     end
  
     it "has link to the show page of each bulk discount listed" do

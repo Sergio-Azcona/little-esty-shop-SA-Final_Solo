@@ -85,8 +85,11 @@ RSpec.describe 'Bulk Discount Index page' do
         expect(page).to have_content("#{@seven_for_7.discount_name}")      
         expect(page).to have_content("#{@seven_for_7.percentage}")
         expect(page).to have_content("#{@seven_for_7.quantity_threshold}")
-      
         expect(page).to have_content('Delete This Discount')
+      end
+      
+      within("#discount-list-#{@seven_for_7.id}") do
+        click_link ('Delete This Discount')
       end
     end
 
