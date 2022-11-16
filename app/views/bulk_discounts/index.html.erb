@@ -13,3 +13,9 @@
     <ul><%= link_to 'Delete This Discount', "/merchants/#{@merchant.id}/bulk_discounts/#{bulk_discount.id}", method: :delete %></ul>
   </div>
 <% end %>
+
+<hr>
+  <p>Upcoming Holidays</p>
+    <%@holidays.each do|holiday|%>
+     <ul>Holiday: <%=holiday.name %> Date:<%=holiday.date %></ul>
+  <% end %>

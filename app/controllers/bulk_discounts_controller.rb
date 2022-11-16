@@ -1,13 +1,15 @@
 class BulkDiscountsController < ApplicationController
+  before_action :upcoming_holidays, only: [:index]
+  
   def index
     @merchant = Merchant.find(params[:merchant_id]) 
   end
-
+  
   def show
     @merchant = Merchant.find(params[:merchant_id])
     @bulk_discount = @merchant.bulk_discounts.find(params[:id])
   end
-
+  
   def new
     @merchant = Merchant.find(params[:merchant_id])
     @new_discount = @merchant.bulk_discounts.new
@@ -55,6 +57,10 @@ class BulkDiscountsController < ApplicationController
 
     flash.notice = "Discount Deleted"
     redirect_to merchant_bulk_discounts_path("#{@merchant.id}")
+  end
+
+  def upcoming_holidays
+   @holidays = HolidaySearch.new.holiday_information[0..2]
   end
 
   private
