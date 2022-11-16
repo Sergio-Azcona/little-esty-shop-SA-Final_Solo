@@ -16,7 +16,7 @@ class BulkDiscountsController < ApplicationController
   def create
     @merchant = Merchant.find(params[:merchant_id])
     @new_discount = @merchant.bulk_discounts.create(bulk_discount_params)
-    
+    # require 'pry';binding.pry
     if @new_discount.save
       flash.notice = "New Discount Created"
       redirect_to merchant_bulk_discounts_path("#{@merchant.id}")
@@ -48,8 +48,8 @@ class BulkDiscountsController < ApplicationController
   end
 
   def destroy
+    # require 'pry';binding.pry
     @merchant = Merchant.find(params[:merchant_id])
-    
     @delete_discount = @merchant.bulk_discounts.find(params[:id])
     @delete_discount.destroy
 

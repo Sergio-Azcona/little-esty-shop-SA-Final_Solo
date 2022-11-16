@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   resources :merchants do 
     resources :items 
-    #creates routes for merchants and merchant_items 
+    
     resources :invoices
     resources :bulk_discounts
   end
