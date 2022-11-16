@@ -81,7 +81,7 @@ RSpec.describe 'Bulk Discount Index page' do
     it "displays the percentage discount and quantity thresholds" do
     
       visit ("/merchants/#{@dk.id}/bulk_discounts")
-
+      # save_and_open_page
       expect(page).to_not have_content(@double_five.discount_name)
       
       expect(page).to have_content(@seven_for_7.discount_name)

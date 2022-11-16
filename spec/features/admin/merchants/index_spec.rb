@@ -35,7 +35,7 @@ RSpec.describe 'the admin merchants index page' do
     @inv4.transactions.create!(result: 0)
     @inv5.transactions.create!(result: 0)
 
-    visit admin_merchants_path
+    # visit admin_merchants_path
   end
 
   describe 'merchants' do 
