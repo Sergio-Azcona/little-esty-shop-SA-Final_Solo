@@ -60,7 +60,7 @@ RSpec.describe 'the Merchant dashboard' do
   end
 
   describe 'links' do 
-    it 'to the merchant items index and invoices index' do 
+    xit 'to the merchant items index and invoices index' do 
       click_link 'My Items'
       expect(current_path).to eq("/merchants/#{@lisa_frank.id}/items")
     end

@@ -129,7 +129,7 @@ RSpec.describe 'merchant items index page' do
     end
    
 
-    it 'top selling date for each item was date with most sales' do 
+    xit 'top selling date for each item was date with most sales' do 
       visit "/merchants/#{@merchant2.id}/items"
       
       expect(page).to have_content("Top Selling Date For Kevin Ta Action Figure was Friday, July 02, 2010")

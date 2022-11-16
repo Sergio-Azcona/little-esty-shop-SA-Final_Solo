@@ -34,6 +34,7 @@
 
   <div class= "column", id= "top_items">
     <h2>Top Items</h2>
+    
     <% @merchant.most_popular_items.each do |item|%>
       <p><%=link_to "#{item.name}", "/merchants/#{@merchant.id}/items/#{item.id}", method: :get %>:
       <%=item.revenue%> in sales</p> 

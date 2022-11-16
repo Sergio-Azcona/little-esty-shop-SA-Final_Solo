@@ -5,6 +5,12 @@ RSpec.describe "Merchant Invoice Show" do
     @merchant1 = Merchant.create!(name: "Kevin's Illegal goods")
     @merchant2 = Merchant.create!(name: "Denver PC parts")
 
+    @two_get_twenty = @merchant1.bulk_discounts.create!(discount_name:"2 get 20!", percentage: 20, quantity_threshold: 2, merchant: @klein_rempel) 
+    @threes = @merchant1.bulk_discounts.create!(discount_name:"Threes", percentage: 3, quantity_threshold: 3, merchant: @klein_rempel) 
+    @four_fives = @merchant1.bulk_discounts.create!(discount_name:"4Five", percentage: 5, quantity_threshold: 4, merchant: @klein_rempel) 
+    @perfect_10 = @merchant2.bulk_discounts.create!(discount_name:"Perfect 10s", percentage: 10, quantity_threshold: 10, merchant: @dk)
+    @lucky6 = @merchant2.bulk_discounts.create!(discount_name:"Lucky 6", percentage: 6, quantity_threshold: 6, merchant: @dk)
+  
     @customer1 = Customer.create!(first_name: "Sean", last_name: "Culliton")
     @customer2 = Customer.create!(first_name: "Sergio", last_name: "Azcona")
     @customer3 = Customer.create!(first_name: "Emily", last_name: "Port")
@@ -102,4 +108,20 @@ RSpec.describe "Merchant Invoice Show" do
       end
     end
   end
+
+  # describe 'Bulk Discount Merchant Invoice Show Page: Link to applied discounts' do
+  #   it 'Next to each invoice item is a link to the show page for the bulk discount applied (if any)' do
+  #     visit merchant_invoice_path(@merchant1, @invoice1)
+
+  #     # expect(page).to have_content("Discount Applied")
+  #     # save_and_open_page
+  #       within "#invoice_item-#{@invoice_item1.id}" do
+  #         expect(page).to have_button("Discount Applied")
+  #         click_button('Discount Applied')
+  #       end 
+  #       # expect(current_path).to_not eq(merchant_invoice_path(@merchant1, @invoice1))
+  #       expect(current_path).to eq(merchant_bulk_discount_path(invoice_item.item.merchant, invoice_item.item.bulk_discounts) )
+  #     # expect(page).to_not have_content("Total Revenue: 432000")
+  #   end
+  # end
 end
